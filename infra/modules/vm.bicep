@@ -2,10 +2,10 @@
 param location string = resourceGroup().location
 
 @description('Name of the virtual machine')
-param vmName string
+param vmName string = 'AZDO-VM'
 
 @description('Admin username for the VM')
-param adminUsername string
+param adminUsername string = 'azureuser'
 
 @secure()
 @description('Admin password for the VM')
@@ -15,7 +15,12 @@ param adminPassword string
 param vmSize string
 
 @description('Ubuntu Image version')
-param ubuntuImageSku string = 'server'
+param VmImage object = {
+  publisher: 'Canonical'
+  offer: 'ubuntu-24_04-lts'
+  sku: 'server'
+  version: 'latest'
+}
 @description('subnet id to place the vm')
 param subnetID string
 @description('NSG id to attach to the vm')
@@ -35,48 +40,6 @@ resource publicIP 'Microsoft.Network/publicIPAddresses@2023-05-01' = {
     publicIPAllocationMethod: 'Static'
   }
 }
-
-// resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' = {
-//   name: vnetName
-//   location: location
-//   properties: {
-//     addressSpace: {
-//       addressPrefixes: [
-//         addressPrefix
-//       ]
-//     }
-//     subnets: [
-//       {
-//         name: subnetName
-//         properties: {
-//           addressPrefix: subnetPrefix
-//         }
-//       }
-//     ]
-//   }
-// }
-
-// resource nsg 'Microsoft.Network/networkSecurityGroups@2023-05-01' = {
-//   name: nsgName
-//   location: location
-//   properties: {
-//     securityRules: [
-//       {
-//         name: 'allow-ssh'
-//         properties: {
-//           priority: 1000
-//           direction: 'Inbound'
-//           access: 'Allow'
-//           protocol: 'Tcp'
-//           sourcePortRange: '*'
-//           destinationPortRange: '22'
-//           sourceAddressPrefix: '*'
-//           destinationAddressPrefix: '*'
-//         }
-//       }
-//     ]
-//   }
-// }
 
 resource nic 'Microsoft.Network/networkInterfaces@2023-05-01' = {
   name: nicName
@@ -119,10 +82,10 @@ resource vm 'Microsoft.Compute/virtualMachines@2023-03-01' = {
     }
     storageProfile: {
       imageReference: {
-        publisher: 'Canonical'
-        offer: 'ubuntu-24_04-lts'
-        sku: ubuntuImageSku
-        version: 'latest'
+        publisher: VmImage.publisher
+        offer: VmImage.offer
+        sku: VmImage.sku
+        version: VmImage.version
       }
       osDisk: {
         createOption: 'FromImage'

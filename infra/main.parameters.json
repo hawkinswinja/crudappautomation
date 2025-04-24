@@ -1,0 +1,43 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "Location": {
+            "value": "northeurope"
+        },
+        "ResourceGroupName": {
+            "value": "AutomationDemo"
+        },
+        "acrName": {
+            "value": "devopsassessment"
+        },
+        "acrCreate": {
+            "value": true
+        },
+        "aksClusterName": {
+            "value": "AutomationDemoAKS"
+        },
+        "servicePrincipalClientId": {
+            "value": "4704213d-33b5-469d-84c5-72ea35c21bcc"
+        },
+        "webAppName": {
+            "value": "AutomationDemoWebApp"
+        },
+        "webAppContainerImage": {
+            "value": "nginx:v1"
+        },
+        "appGatewayName": {
+            "value": "AutomationDemoAppGateway"
+        },
+        "vmName": {
+            "value": "AutomationDemoVM"
+        },
+        "vmSize": {
+            "value": "Standard_DS1_v2"
+        },
+        "vmUserName": {
+            "value": "azureuser"
+        }
+    }
+}
+

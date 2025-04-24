@@ -1,26 +1,36 @@
 param VnetName string = '${resourceGroup().name}-vnet-${resourceGroup().location}'
-param VnetAddressPrefix string = '10.0.0.0/16'
+param VnetAddressPrefix string = '10.224.0.0/12'
 param subnets object = {
-  privatesubnet: {
-    addressprefix: '10.0.4.0/24'
+  aksSubnet: {
+    addressprefix: '10.225.1.0/24'
     public: false
+    delegation: false
   }
-  publicsubnet: {
-    addressprefix: '10.0.5.0/24'
+  publicSubnet: {
+    addressprefix: '10.225.2.0/24'
     public: true
+    delegation: false
+  }
+  webAppSubnet: {
+    addressprefix: '10.225.3.0/24'
+    public: false
+    delegation: true
+    delegationName: 'delegationToWebApp'
+    serviceName: 'Microsoft.Web/serverFarms'
+    
   }
 }
 
 var location = resourceGroup().location
 
 
-resource privateNSG 'Microsoft.Network/networkSecurityGroups@2023-04-01' = {
-  name: 'private-${VnetName}-nsg'
-  location: location
-  properties: {
-    securityRules: []
-  }
-}
+// resource privateNSG 'Microsoft.Network/networkSecurityGroups@2023-04-01' = {
+//   name: 'private-${VnetName}-nsg'
+//   location: location
+//   properties: {
+//     securityRules: []
+//   }
+// }
 
 resource publicNSG 'Microsoft.Network/networkSecurityGroups@2023-04-01' = {
   name: 'public-${VnetName}-nsg'
@@ -28,12 +38,12 @@ resource publicNSG 'Microsoft.Network/networkSecurityGroups@2023-04-01' = {
   properties: {
     securityRules: [
       {
-        name: 'AllowInternetInbound'
+        name: 'AllowSSHInbound'
         properties: {
           priority: 300
           protocol: '*'
           sourcePortRange: '*'
-          destinationPortRange: '*'
+          destinationPortRange: '22'
           sourceAddressPrefix: 'Internet'
           destinationAddressPrefix: 'VirtualNetwork'
           access: 'Allow'
@@ -57,11 +67,19 @@ resource vnet 'Microsoft.Network/virtualNetworks@2024-05-01' = {
         name: subnet.key
         properties: {
           addressPrefix: subnet.value.addressprefix
-          networkSecurityGroup: subnet.value.public ? {
-            id: publicNSG.id
-          } : {
-            id: privateNSG.id
-          }
+          delegations: subnet.value.delegation ? [
+            {
+              name: subnet.value.delegationName
+              properties: {
+                serviceName: subnet.value.serviceName
+              }
+            }
+          ] : []
+          // networkSecurityGroup: subnet.value.public ? {
+          //   id: publicNSG.id
+          // } : {
+          //   id: privateNSG.id
+          // }
         }
       }
     ]
@@ -70,5 +88,6 @@ resource vnet 'Microsoft.Network/virtualNetworks@2024-05-01' = {
 
 
 output publicsubnetID string = vnet.properties.subnets[1].id
-output privatesubnetID string = vnet.properties.subnets[0].id
+output akssubnetID string = vnet.properties.subnets[0].id
+output webAppSubnetID string = vnet.properties.subnets[2].id
 output nsgID string = publicNSG.id
