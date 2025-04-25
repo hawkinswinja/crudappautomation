@@ -12,7 +12,7 @@ trigger:
      - infra/*
 
 parameters:
-- name: ServiceConnection
+- name: azureServiceConnection
   type: string
   default: 'plscont'
 
