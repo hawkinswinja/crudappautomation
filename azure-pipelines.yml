@@ -27,13 +27,14 @@ variables:
 steps:
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
-    deploymentScope: Subscription
+    deploymentScope: 'Subscription'
     azureResourceManagerConnection: '${{ parameters.azureServiceConnection }}'
+    location: '$(location)'
     # subscriptionId: '$(subscription)'
     csmFile: 'infra/main.bicep'
     csmParametersFile: 'infra/main.parameters.json'
-    deploymentMode: Incremental
+    deploymentMode: 'Incremental'
     deploymentOutputs: 'deploymentOutputs'
-    overrideParameters: '-vmPassword $(vmPassword) -ResourceGroupName AssessmentDemo'
+    overrideParameters: '-vmPassword $(vmPassword) -ResourceGroupName $(rgname)'
 
 
