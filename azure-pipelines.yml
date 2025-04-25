@@ -35,7 +35,7 @@ steps:
     useGlobalConfig: false
     inlineScript: |
       az --version
-      az deployment sub create -p ./infra/main.parameters.json vmPassword=$(vmPassword) -f ./infra/main.bicep -l $(location)
+      az deployment sub create -p ./infra/main.parameters.json vmPassword=$(vmPassword) ResourceGroupName=$(rgname) -f ./infra/main.bicep -l $(location)
   
 
 # - task: AzureResourceManagerTemplateDeployment@3
