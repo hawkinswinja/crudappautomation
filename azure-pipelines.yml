@@ -3,6 +3,8 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
+name: Deploy Bicep files
+
 trigger:
  branches:
    include:
@@ -25,16 +27,29 @@ variables:
 - group: AutomationDemo
 
 steps:
-- task: AzureResourceManagerTemplateDeployment@3
+- task: AzureCLI@2
   inputs:
-    deploymentScope: 'Subscription'
-    azureResourceManagerConnection: '${{ parameters.azureServiceConnection }}'
-    location: '$(location)'
-    # subscriptionId: '$(subscription)'
-    csmFile: 'infra/main.bicep'
-    csmParametersFile: 'infra/main.parameters.json'
-    deploymentMode: 'Incremental'
-    deploymentOutputs: 'deploymentOutputs'
-    overrideParameters: '-vmPassword $(vmPassword) -ResourceGroupName $(rgname)'
+    azureSubscription: '${{ parameters.azureServiceConnection }}'
+    scriptType: bash
+    scriptLocation: inlineScript
+    useGlobalConfig: false
+    inlineScript: |
+      az --version
+      az deployment sub create `
+        --parameters ./infra/main.parameters.json vmPassword=$(vmPassword) `
+        --template-file ./infra/main.bicep
+  
+
+# - task: AzureResourceManagerTemplateDeployment@3
+#   inputs:
+#     deploymentScope: 'Subscription'
+#     azureResourceManagerConnection: '${{ parameters.azureServiceConnection }}'
+#     location: '$(location)'
+#     # subscriptionId: '$(subscription)'
+#     csmFile: 'infra/main.bicep'
+#     csmParametersFile: 'infra/main.parameters.json'
+#     deploymentMode: 'Incremental'
+#     deploymentOutputs: 'deploymentOutputs'
+#     overrideParameters: '-vmPassword $(vmPassword) -ResourceGroupName $(rgname)'
 
 
