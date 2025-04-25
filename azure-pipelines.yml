@@ -30,12 +30,13 @@ steps:
 - task: AzureCLI@2
   inputs:
     azureSubscription: '${{ parameters.azureServiceConnection }}'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
     scriptType: bash
     scriptLocation: inlineScript
     useGlobalConfig: false
     inlineScript: |
       az --version
-      az deployment sub create -p ./infra/main.parameters.json vmPassword=$(vmPassword) ResourceGroupName=$(rgname) -f ./infra/main.bicep -l $(location)
+      az deployment sub create -p main.parameters.json ResourceGroupName=$(rgname) -f main.bicep -l $(location)
   
 
 # - task: AzureResourceManagerTemplateDeployment@3
