@@ -22,11 +22,11 @@ pool:
 
 
 variables:
-  location: 'northeurope'
-  templateFile: './infra/main.bicep'
-  csmParametersFile: './infra/main.parameters.json'
-  # subscription:
-  vmPassword: 
+- group: AutomationDemo
+
+location: 'northeurope'
+templateFile: './infra/main.bicep'
+csmParametersFile: './infra/main.parameters.json'
 
 steps:
 - task: AzureResourceManagerTemplateDeployment@3
