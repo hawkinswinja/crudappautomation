@@ -24,20 +24,16 @@ pool:
 variables:
 - group: AutomationDemo
 
-  location: 'northeurope'
-  templateFile: './infra/main.bicep'
-  csmParametersFile: './infra/main.parameters.json'
-
 steps:
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: Subscription
     azureResourceManagerConnection: '${{ parameters.azureServiceConnection }}'
     # subscriptionId: '$(subscription)'
-    csmFile: '$(templateFile)'
-    csmParametersFile: '$(csmParametersFile)'
+    csmFile: 'infra/main.bicep'
+    csmParametersFile: 'infra/main.parameters.json'
     deploymentMode: Incremental
     deploymentOutputs: 'deploymentOutputs'
-    overrideParameters: '-vmPassword $(vmPassword)'
+    overrideParameters: '-vmPassword $(vmPassword) -ResourceGroupName AssessmentDemo'
 
 
