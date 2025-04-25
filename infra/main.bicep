@@ -43,8 +43,7 @@ module aks 'modules/aks.bicep' = {
   name: 'aks'
   scope: resourceGroup(deploymentgroup.name)
   params: {
-    appGatewayId:''
-    // appGatewayId: appgw.outputs.appGatewayId
+    appGatewayId: appgw.outputs.appGatewayId
     aksSubnetId: vnet.outputs.akssubnetID
     aksClusterName: aksClusterName
     acrCreate: acrCreate
