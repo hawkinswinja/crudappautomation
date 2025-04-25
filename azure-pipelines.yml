@@ -1,0 +1,43 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+ branches:
+   include:
+     - master
+ paths:
+   include:
+     - infra/*
+
+parameters:
+- name: ServiceConnection
+  type: string
+  default: 'plscontapp'
+
+
+pool:
+  vmImage: ubuntu-latest
+
+
+variables:
+  location: 'northeurope'
+  templateFile: './infra/main.bicep'
+  csmParametersFile: './infra/main.parameters.json'
+  # subscription:
+  vmPassword:
+
+steps:
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: Subscription
+    azureResourceManagerConnection: '${{ parameters.azureServiceConnection }}'
+    # subscriptionId: '$(subscription)'
+    csmFile: '$(templateFile)'
+    csmParametersFile: '$(csmParametersFile)'
+    deploymentMode: Incremental
+    deploymentOutputs: 'deploymentOutputs'
+    overrideParameters: '-vmPassword $(vmPassword)'
+
+
