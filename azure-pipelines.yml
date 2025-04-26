@@ -20,7 +20,8 @@ parameters:
 
 
 pool:
-  vmImage: ubuntu-latest
+  name: DemoRG-agentpool
+  # vmImage: ubuntu-latest
 
 
 variables:
