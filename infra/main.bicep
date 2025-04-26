@@ -13,6 +13,10 @@ param servicePrincipalClientId string
 param webAppName string 
 @description('The name of the container image to deploy')
 param webAppContainerImage string
+@description('The Azure DevOps project to create an agent pool')
+param azdoProject string
+@description('The url of the Azure DevOps organization')
+param azdoUrl string
 
 
 var appGatewayName = 'appgw-${aksClusterName}'
@@ -22,6 +26,20 @@ targetScope = 'subscription'
 resource deploymentgroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: ResourceGroupName
   location: Location
+}
+
+resource azdoGroup 'Microsoft.Resources/resourceGroups@2024-11-01' = {
+  name: '${ResourceGroupName}-azdo'
+  location: Location
+}
+
+module mdp 'modules/mdp.bicep' = {
+  name: 'azdo'
+  scope: resourceGroup(azdoGroup.name)
+  params: {
+    projectName: azdoProject
+    organizationUrl: azdoUrl
+  }
 }
 
 
@@ -70,6 +88,3 @@ module webapp 'modules/appservice.bicep' = {
     webAppName: webAppName
   }
 }
-
-
-output KeyvaultProfileClientId string = aks.outputs.addonKeyvaultClientId

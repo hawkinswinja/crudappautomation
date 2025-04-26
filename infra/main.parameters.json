@@ -25,6 +25,12 @@
         },
         "webAppContainerImage": {
             "value": "nginx:v1"
+        },
+        "azdoUrl": {
+            "value": "https://dev.azure.com/hawkinswinja"
+        },
+        "azdoProject": {
+            "value": "DevOpsAssessment"
         }
     }
 }
