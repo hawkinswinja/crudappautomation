@@ -93,7 +93,7 @@ resource azdopool 'Microsoft.DevOpsInfrastructure/pools@2025-01-21' = {
         }
       ]
       permissionProfile: {
-        kind: 'CreatorOnly'
+        kind: 'Inherit'
       }
     }
     provisioningState: 'Succeeded'
