@@ -37,7 +37,7 @@ steps:
     useGlobalConfig: false
     inlineScript: |
       az --version
-      az deployment sub create -p main.parameters.json ResourceGroupName=$(rgname) -f main.bicep -l $(location)
+      az deployment sub create -p main.parameters.json ResourceGroupName=$(rgname) acrName=$(acrName) webAppContainerImage=$(webAppContainerImage) -f main.bicep -l $(location)
   
 
 # - task: AzureResourceManagerTemplateDeployment@3
