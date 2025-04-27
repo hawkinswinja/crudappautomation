@@ -1,4 +1,4 @@
-name: BuildAndPushViewImage
+name: Build and Push api Image
 
 trigger:
   branches:
@@ -15,6 +15,7 @@ parameters:
   displayName: 'Use Self-Hosted Agent'
 - name: agentPoolName
   type: string
+  default: 'Default'
   displayName: 'Agent Pool Name'
 - name: azureServiceConnection
   type: string
@@ -46,7 +47,7 @@ stages:
 
     - script: |
         time=$(date +%Y%m%d%H%M%S)
-        docker build --push -t $(acrName).azurecr.io/$(crud-ui-service):$time -f Dockerfile-sql-srv .
+        docker build --push -t $(acrName).azurecr.io/$(crud-api-service):$time -f Dockerfile-sql-srv .
       displayName: 'Build and Push Crud API Image'
       workingDirectory: '$(System.DefaultWorkingDirectory)/application/api'
       

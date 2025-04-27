@@ -15,6 +15,7 @@ parameters:
   displayName: 'Use Self-Hosted Agent'
 - name: agentPoolName
   type: string
+  default: 'Default'
   displayName: 'Agent Pool Name'
   
 - name: azureServiceConnection
