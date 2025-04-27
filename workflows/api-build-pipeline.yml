@@ -45,8 +45,8 @@ stages:
           az acr login --name $(acrName)
 
 
-    - displayName: Build and Push Docker Image
-      workingDirectory: $(System.DefaultWorkingDirectory)/application/api
+    - displayName: 'Build and Push Crud API Image'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/application/api'
       script: |
         time=$(date +%Y%m%d%H%M%S)
         docker build --push -t $(acrName).azurecr.io/$(crud-ui-service):$time -f Dockerfile-sql-srv .
