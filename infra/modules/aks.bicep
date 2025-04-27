@@ -102,7 +102,7 @@ resource fluxAddon 'Microsoft.KubernetesConfiguration/extensions@2022-04-02-prev
 }
 
 resource keyvault 'Microsoft.KeyVault/vaults@2024-11-01' = {
-  name: '${resourceGroup().name}-kv'
+  name: 'kv-${uniqueString(resourceGroup().id, aksCluster.id)}'
   location: location
   properties: {
     sku: {
@@ -111,6 +111,7 @@ resource keyvault 'Microsoft.KeyVault/vaults@2024-11-01' = {
     }
     tenantId: subscription().tenantId
     enableRbacAuthorization: true
+    enablePurgeProtection: true
   }
 }
 
