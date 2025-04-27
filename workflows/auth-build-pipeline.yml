@@ -11,7 +11,7 @@ trigger:
 parameters:
 - name: useSelfHostedAgent
   type: boolean
-  default: false
+  default: true
   displayName: 'Use Self-Hosted Agent'
 - name: agentPoolName
   type: string
