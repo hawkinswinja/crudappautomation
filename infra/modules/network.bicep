@@ -18,12 +18,6 @@ param subnets object = {
     delegationName: 'delegationToWebApp'
     serviceName: 'Microsoft.Web/serverFarms'
   }
-  databaseSubnet: {
-    addressprefix: '10.225.4.0/24'
-    delegation: true
-    delegationName: 'delegationToSqlServer'
-    serviceName: 'Microsoft.Sql/managedInstances'
-  }
 }
 
 var location = resourceGroup().location

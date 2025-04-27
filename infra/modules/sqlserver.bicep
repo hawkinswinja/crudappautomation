@@ -19,7 +19,7 @@ resource database 'Microsoft.Sql/servers/databases@2024-05-01-preview' = [for db
   parent: sqlserver
   location: resourceGroup().location
   sku: {
-    name: 'Free'
+    name: 'Basic'
   }
 }]
 
