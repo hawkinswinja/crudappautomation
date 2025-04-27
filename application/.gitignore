@@ -1,0 +1,11 @@
+api/.vscode
+api/public/storage
+api/vendor
+api/composer.lock
+api/.env
+view/.vscode
+view/node_modules
+view/package-lock.json
+Authentication/bin
+Authentication/obj
+Authentication/appsettings.Dev.json
