@@ -15,7 +15,7 @@ parameters:
   displayName: 'Use Self-Hosted Agent'
 - name: agentPoolName
   type: string
-  default: '$(System.TeamProject)-agentpool' # Default to the current project name
+  default: 'DevOpsAssessment-agentpool' # Default to the current project name
   displayName: 'Agent Pool Name'
 - name: azureServiceConnection
   type: string
