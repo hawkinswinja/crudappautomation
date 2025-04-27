@@ -22,7 +22,7 @@ param subnets object = {
     addressprefix: '10.225.4.0/24'
     delegation: true
     delegationName: 'delegationToSqlServer'
-    serviceName: 'Microsoft.Sql/servers'
+    serviceName: 'Microsoft.Sql/managedInstances'
   }
 }
 
