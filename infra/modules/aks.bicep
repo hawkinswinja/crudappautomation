@@ -114,11 +114,10 @@ resource keyvault 'Microsoft.KeyVault/vaults@2024-11-01' = {
   }
 }
 
-
 output addonKeyvaultClientId string = aksCluster.properties.addonProfiles.azureKeyvaultSecretsProvider.identity.clientId
 output keyVaultId string = keyvault.id
 output acrUrl string = acr.properties.loginServer
 output acrId string = acr.id
-output resourceGroupName string = resourceGroup().name
+output resourceGroupId string = resourceGroup().id
 output addonAppgwClientId string = aksCluster.properties.addonProfiles.ingressApplicationGateway.identity.clientId
 

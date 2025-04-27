@@ -17,7 +17,12 @@ param subnets object = {
     delegation: true
     delegationName: 'delegationToWebApp'
     serviceName: 'Microsoft.Web/serverFarms'
-    
+  }
+  databaseSubnet: {
+    addressprefix: '10.225.4.0/24'
+    delegation: true
+    delegationName: 'delegationToSqlServer'
+    serviceName: 'Microsoft.Sql/servers'
   }
 }
 
@@ -32,27 +37,27 @@ var location = resourceGroup().location
 //   }
 // }
 
-resource publicNSG 'Microsoft.Network/networkSecurityGroups@2023-04-01' = {
-  name: 'public-${VnetName}-nsg'
-  location: location
-  properties: {
-    securityRules: [
-      {
-        name: 'AllowSSHInbound'
-        properties: {
-          priority: 300
-          protocol: '*'
-          sourcePortRange: '*'
-          destinationPortRange: '22'
-          sourceAddressPrefix: 'Internet'
-          destinationAddressPrefix: 'VirtualNetwork'
-          access: 'Allow'
-          direction: 'Inbound'
-        }
-      }
-    ]
-  }
-}
+// resource publicNSG 'Microsoft.Network/networkSecurityGroups@2023-04-01' = {
+//   name: 'public-${VnetName}-nsg'
+//   location: location
+//   properties: {
+//     securityRules: [
+//       {
+//         name: 'AllowSSHInbound'
+//         properties: {
+//           priority: 300
+//           protocol: '*'
+//           sourcePortRange: '*'
+//           destinationPortRange: '22'
+//           sourceAddressPrefix: 'Internet'
+//           destinationAddressPrefix: 'VirtualNetwork'
+//           access: 'Allow'
+//           direction: 'Inbound'
+//         }
+//       }
+//     ]
+//   }
+// }
 
 resource vnet 'Microsoft.Network/virtualNetworks@2024-05-01' = {
   name: VnetName
@@ -75,11 +80,6 @@ resource vnet 'Microsoft.Network/virtualNetworks@2024-05-01' = {
               }
             }
           ] : []
-          // networkSecurityGroup: subnet.value.public ? {
-          //   id: publicNSG.id
-          // } : {
-          //   id: privateNSG.id
-          // }
         }
       }
     ]
@@ -90,4 +90,4 @@ resource vnet 'Microsoft.Network/virtualNetworks@2024-05-01' = {
 output publicsubnetID string = vnet.properties.subnets[1].id
 output akssubnetID string = vnet.properties.subnets[0].id
 output webAppSubnetID string = vnet.properties.subnets[2].id
-output nsgID string = publicNSG.id
+// output nsgID string = publicNSG.id

@@ -17,6 +17,14 @@ param webAppContainerImage string
 param azdoProject string
 @description('The url of the Azure DevOps organization')
 param azdoUrl string
+param dbUserName string = 'azureuser'
+@secure()
+param dbPassword string
+@description('The list of database names to create in the SQL server.')
+param dbNames array = [
+  'crud'
+  'auth'
+]
 
 
 var appGatewayName = 'appgw-${aksClusterName}'
@@ -86,5 +94,15 @@ module webapp 'modules/appservice.bicep' = {
     registryId: aks.outputs.acrId
     registry: aks.outputs.acrUrl
     webAppName: webAppName
+  }
+}
+
+module sql 'modules/sqlserver.bicep' = {
+  name: 'sqlserver'
+  scope: resourceGroup(deploymentgroup.name)
+  params: {
+    dbPassword: dbPassword
+    dbUserName: dbUserName
+    dbNames: dbNames
   }
 }
