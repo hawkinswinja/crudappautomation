@@ -39,7 +39,6 @@ resource aksCluster 'Microsoft.ContainerService/managedClusters@2024-02-01' = {
   name: aksClusterName
   location: location
   properties: {
-    // nodeResourceGroup: aksNodeResourceGroupName
     enableRBAC: true
     kubernetesVersion: aksClusterKubernetesVersion
     dnsPrefix: aksClusterName
@@ -79,13 +78,6 @@ resource aksCluster 'Microsoft.ContainerService/managedClusters@2024-02-01' = {
       azureKeyvaultSecretsProvider: {
         enabled: true
       }
-      // ingressApplicationGateway: {
-      //   enabled: true
-      //   config: {
-      //     subnetId: appgwSubnetId
-      //     gatewayName: 'appGateway'
-      //   }
-      // }
     }
   }
   identity: {
@@ -109,6 +101,24 @@ resource fluxAddon 'Microsoft.KubernetesConfiguration/extensions@2022-04-02-prev
   }
 }
 
+resource keyvault 'Microsoft.KeyVault/vaults@2024-11-01' = {
+  name: '${resourceGroup().name}-kv'
+  location: location
+  properties: {
+    sku: {
+      family: 'A'
+      name: 'standard'
+    }
+    tenantId: subscription().tenantId
+    enableRbacAuthorization: true
+  }
+}
+
+
 output addonKeyvaultClientId string = aksCluster.properties.addonProfiles.azureKeyvaultSecretsProvider.identity.clientId
+output keyVaultId string = keyvault.id
 output acrUrl string = acr.properties.loginServer
 output acrId string = acr.id
+output resourceGroupName string = resourceGroup().name
+output addonAppgwClientId string = aksCluster.properties.addonProfiles.ingressApplicationGateway.identity.clientId
+
