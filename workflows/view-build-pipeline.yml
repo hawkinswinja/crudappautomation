@@ -16,6 +16,7 @@ parameters:
 - name: agentPoolName
   type: string
   displayName: 'Agent Pool Name'
+  
 - name: azureServiceConnection
   type: string
   default: 'plscont'
@@ -44,9 +45,8 @@ stages:
         inlineScript: |
           az acr login --name $(acrName)
 
-    - step:
-      workingDirectory: $(System.DefaultWorkingDirectory)/application/api
-      displayName: Build and Push Image
-      run: |
+    - displayName: Build and Push Docker Image
+      workingDirectory: $(System.DefaultWorkingDirectory)/application/view
+      script: |
         time=$(date +%Y%m%d%H%M)
-        docker build --push -t $(acrName).azurecr.io/$(crud-api-service):$time .
+        docker build --push -t $(acrName).azurecr.io/$(crud-ui-service):$time .

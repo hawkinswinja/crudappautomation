@@ -44,9 +44,8 @@ stages:
         inlineScript: |
           az acr login --name $(acrName)
 
-    - step:
-      displayName: Build and Push Docker Image
+    - displayName: Build and Push Docker Image
       workingDirectory: $(System.DefaultWorkingDirectory)/application/Authentication
-      run: |
+      script: |
         time=$(date +%Y%m%d%H%M%S)
         docker build --push -t $(acrName).azurecr.io/$(crud-auth-service):$time .
