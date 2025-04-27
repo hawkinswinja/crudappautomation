@@ -1,0 +1,52 @@
+name: BuildAndPushViewImage
+
+trigger:
+  branches:
+    include:
+      - "*"
+  paths:
+    include:
+      - application/Authentication/*
+
+parameters:
+- name: useSelfHostedAgent
+  type: boolean
+  default: false
+  displayName: 'Use Self-Hosted Agent'
+- name: agentPoolName
+  type: string
+  displayName: 'Agent Pool Name'
+- name: azureServiceConnection
+  type: string
+  default: 'plscont'
+
+variables:
+- group: AutomationDemo
+
+stages:
+- stage: BuildAndPush
+  displayName: Build and Push Docker Image
+  jobs:
+  - job: Build
+    displayName: Build and Push Docker Image to ACR
+    pool:
+      ${{ if eq(parameters.useSelfHostedAgent, true) }}:
+        name: '${{ parameters.agentPoolName }}'
+      ${{ if eq(parameters.useSelfHostedAgent, false) }}:
+        vmImage: 'ubuntu-latest'
+    steps:
+    - task: AzureCLI@2
+      displayName: Login to Azure
+      inputs:
+      azureSubscription: ${{ parameters.azureServiceConnection }}
+      scriptType: bash
+      scriptLocation: inlineScript
+      inlineScript: |
+        az acr login --name $(acrName)
+
+    - step:
+      displayName: Build and Push Docker Image
+      workingDirectory: $(System.DefaultWorkingDirectory)/application/Authentication
+      run: |
+        time=$(date +%Y%m%d%H%M%S)
+        docker build --push -t $(acrName).azurecr.io/$(crud-auth-service):$time .
