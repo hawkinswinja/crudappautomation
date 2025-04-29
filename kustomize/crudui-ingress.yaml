@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  creationTimestamp: null
+  name: crudui-ingress
+  namespace: crudapp
+spec:
+  ingressClassName: azure-application-gateway
+  rules:
+  - host: crudapp.hawkinswinja.site
+    http:
+      paths:
+      - backend:
+          service:
+            name: crudui
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+status:
+  loadBalancer: {}

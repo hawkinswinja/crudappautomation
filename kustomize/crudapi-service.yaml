@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: crudapi
+  name: crudapi
+  namespace: crudapp
+spec:
+  ports:
+  - name: 8000-8000
+    port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: crudapi
+  type: ClusterIP
+status:
+  loadBalancer: {}
