@@ -26,7 +26,7 @@ spec:
           volumeAttributes:
             secretProviderClass: crudapi-provider-class
       containers:
-      - image: automationdemo.azurecr.io/crudapi:20250429133536 # {"$imagepolicy": "flux-system:crudapi-policy"}
+      - image: automationdemo.azurecr.io/crudapi:20250429133536 # {"$imagepolicy": "flux-system:crudapi-image-policy"}
         name: crudapi
         # envFrom:
         # - secretKeyRef:
