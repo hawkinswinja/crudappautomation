@@ -26,6 +26,11 @@ param appServicePlanSku object = {
 
 @description('The container image to deploy')
 param containerImage string
+param dbUserName string = 'azureuser'
+@secure()
+param dbPassword string
+param sqlServerurl string
+param dbName string = 'auth'
 
 
 var registryUserName = listCredentials(registryId, '2023-07-01').username
@@ -82,6 +87,14 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'WEBSITES_CONTAINER_STOP_TIME_LIMIT'
           value: '1800'
+        }
+        {
+          name: 'DOCKER_ENABLE_CI'
+          value: 'true'
+        }
+        {
+          name: 'ConnectionStrings__DefaultConnection'
+          value: 'Server=tcp:${sqlServerurl},1433;Initial Catalog=${dbName};Persist Security Info=False;User ID=${dbUserName};Password=${dbPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
         }
       ]
       linuxFxVersion: 'DOCKER|${registry}/${containerImage}'

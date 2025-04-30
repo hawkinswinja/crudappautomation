@@ -94,6 +94,10 @@ module webapp 'modules/appservice.bicep' = {
     registryId: aks.outputs.acrId
     registry: aks.outputs.acrUrl
     webAppName: webAppName
+    dbUserName: dbUserName
+    dbPassword: dbPassword
+    dbName: dbNames[1]
+    sqlServerurl: sql.outputs.sqlServerurl
   }
 }
 

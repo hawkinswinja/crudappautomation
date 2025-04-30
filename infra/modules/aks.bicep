@@ -98,6 +98,10 @@ resource fluxAddon 'Microsoft.KubernetesConfiguration/extensions@2022-04-02-prev
       }
     }
     configurationProtectedSettings: {}
+    configurationSettings: {  
+      'image-automation-controller.enabled': 'true'   
+      'image-reflector-controller.enabled': 'true'  
+    }
   }
 }
 

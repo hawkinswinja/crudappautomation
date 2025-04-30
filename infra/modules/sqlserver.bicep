@@ -14,6 +14,15 @@ resource sqlserver 'Microsoft.Sql/servers@2024-05-01-preview' = {
   }
 }
 
+resource symbolicname 'Microsoft.Sql/servers/firewallRules@2024-05-01-preview' = {
+  parent: sqlserver
+  name: 'AllowAllIps'
+  properties: {
+    endIpAddress: '0.0.0.0'
+    startIpAddress: '255.255.255.255'
+  }
+}
+
 resource database 'Microsoft.Sql/servers/databases@2024-05-01-preview' = [for dbName in dbNames: {
   name: dbName
   parent: sqlserver
