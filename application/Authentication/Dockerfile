@@ -24,7 +24,8 @@ RUN dotnet publish -c Release -o out
 FROM base
 WORKDIR /app
 COPY --from=build-env /app/out .
-ENTRYPOINT ["dotnet", "Authentication.dll"]
+ENTRYPOINT ["dotnet"]
+CMD ["Authentication.dll"]
 
 
  
