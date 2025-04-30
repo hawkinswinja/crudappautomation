@@ -84,12 +84,12 @@ module webapp 'modules/appservice.bicep' = {
   params: {
     appServicePlanName: '${aksClusterName}-appserviceplan'
     appSubnetID: vnet.outputs.webAppSubnetID
-    appServicePlanSku: {
-      name: 'P1v3'
-      tier: 'PremiumV3'
-      size: 'P1v3'
-      capacity: 1
-    }
+    // appServicePlanSku: {
+    //   name: 'P1v3'
+    //   tier: 'PremiumV3'
+    //   size: 'P1v3'
+    //   capacity: 1
+    // }
     containerImage: webAppContainerImage
     registryId: aks.outputs.acrId
     registry: aks.outputs.acrUrl
