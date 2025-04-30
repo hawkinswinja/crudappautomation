@@ -18,8 +18,8 @@ resource symbolicname 'Microsoft.Sql/servers/firewallRules@2024-05-01-preview' =
   parent: sqlserver
   name: 'AllowAllIps'
   properties: {
-    endIpAddress: '0.0.0.0'
-    startIpAddress: '255.255.255.255'
+    endIpAddress: '255.255.255.255'
+    startIpAddress: '0.0.0.0'
   }
 }
 
