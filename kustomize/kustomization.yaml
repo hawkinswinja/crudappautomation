@@ -18,3 +18,4 @@ resources:
   - crudui-deployment.yaml
   - crudui-service.yaml
   - crudui-ingress.yaml
+  - hpa.yaml
