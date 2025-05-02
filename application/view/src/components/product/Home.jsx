@@ -22,7 +22,7 @@ function Main() {
           <p>
             Welcome to our platform. Build, deploy, and scale with confidence.
           </p>
-          <button className="cta-button" onClick={handleSwitchToRegister}>Join Us</button>
+          <button className="cta-button" onClick={handleSwitchToRegister}>Build with us</button>
          
         </div>
       </div>
