@@ -7,8 +7,8 @@ metadata:
 spec:
   ingressClassName: azure-application-gateway
   rules:
-  - host: crudapp.hawkinswinja.site
-    http:
+  # - host: crudapp.hawkinswinja.site
+  - http:
       paths:
       - backend:
           service:
@@ -17,5 +17,6 @@ spec:
               number: 80
         path: /
         pathType: Prefix
+
 status:
   loadBalancer: {}

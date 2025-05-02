@@ -21,7 +21,7 @@
             "value": "4704213d-33b5-469d-84c5-72ea35c21bcc"
         },
         "webAppName": {
-            "value": "AutomationDemoWebApp"
+            "value": "CrudAuthService"
         },
         "webAppContainerImage": {
             "value": "nginx:v1"
