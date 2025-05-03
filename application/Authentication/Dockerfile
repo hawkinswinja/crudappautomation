@@ -6,26 +6,21 @@ USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 
-
-
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
-EXPOSE 8080
-# Copy everything
+RUN dotnet tool install --global dotnet-ef --version 8.*
 COPY . ./
-# Restore as distinct layers
 RUN dotnet restore
 RUN dotnet build --configuration Release
 # Build and publish a release
 RUN dotnet publish -c Release -o out
+RUN /root/.dotnet/tools/dotnet-ef migrations bundle --runtime linux-x64 -o migrationsbundle
+# ./migrationsbundle -- --environment Production
  
 # Build runtime image
 FROM base
 WORKDIR /app
-COPY --from=build-env /app/out .
-ENTRYPOINT ["dotnet"]
-CMD ["Authentication.dll"]
-
-
+COPY --from=build-env /app/out /app/migrationsbundle /app/
+CMD ["dotnet", "Authentication.dll"]
  

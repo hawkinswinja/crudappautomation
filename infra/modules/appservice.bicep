@@ -53,7 +53,7 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' = {
   location: location
   properties: {
     serverFarmId: appServicePlan.id
-    publicNetworkAccess: 'Disabled'
+    publicNetworkAccess: 'Enabled'
     virtualNetworkSubnetId: appSubnetID
     vnetImagePullEnabled: true
     siteConfig: {
