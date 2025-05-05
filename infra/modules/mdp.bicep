@@ -79,13 +79,13 @@ resource azdopool 'Microsoft.DevOpsInfrastructure/pools@2025-01-21' = {
       osProfile: {logonType: 'Service'}
       storageProfile: {osDiskStorageAccountType: 'StandardSSD'}
     }
-    maximumConcurrency: 2
+    maximumConcurrency: 3
     organizationProfile: {
       kind: 'AzureDevOps'
       organizations: [
         {
           openAccess: true
-          parallelism: 2
+          parallelism: 3
           projects: [
             projectName
           ]
