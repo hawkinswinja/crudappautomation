@@ -14,15 +14,15 @@ function Main() {
       <div className="left-section">
         <div className="headline">
           <p>
-            Web Design & <br />
-            <span>Development</span>
+            Crud App & <br />
+            <span>Products</span>
           </p>
         </div>
         <div className="description">
           <p>
-            Welcome to our platform. Build, deploy, and scale with confidence.
+            Welcome to our platform. Sell with confidence.
           </p>
-          <button className="cta-button" onClick={handleSwitchToRegister}>Build with us</button>
+          <button className="cta-button" onClick={handleSwitchToRegister}>Sell with us</button>
          
         </div>
       </div>
