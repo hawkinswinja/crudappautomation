@@ -4,10 +4,11 @@ metadata:
   creationTimestamp: null
   name: crudui-ingress
   namespace: crudapp
+  # annotations:
+    # appgw.ingress.kubernetes.io/backend-path-prefix: "/"
 spec:
   ingressClassName: azure-application-gateway
   rules:
-  # - host: crudapp.hawkinswinja.site
   - http:
       paths:
       - backend:
