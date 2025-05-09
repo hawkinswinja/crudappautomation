@@ -1,8 +1,9 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 USER $APP_UID 
-EXPOSE 8000 2222
-COPY entrypoint.sh ./
+EXPOSE 8000
+# EXPOSE 8000 2222
+# COPY entrypoint.sh ./
 # RUN chmod u+x ./entrypoint.sh
 # Start and enable SSH
 # RUN apt-get update \
@@ -29,4 +30,4 @@ RUN /root/.dotnet/tools/dotnet-ef migrations bundle --runtime linux-x64 -o migra
 FROM base
 WORKDIR /app
 COPY --from=build-env /app/out /app/migrationsbundle /app/
-ENTRYPOINT [ "./entrypoint.sh" ]
+ENTRYPOINT ["dotnet", "Authentication.dll" ]
