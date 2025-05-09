@@ -31,4 +31,4 @@ FROM base AS final
 WORKDIR /app
 COPY --from=build-env /app/out ./
 COPY entrypoint.sh ./
-ENTRYPOINT [ "./entrypoint.sh" ]
+CMD [ "./entrypoint.sh" ]
