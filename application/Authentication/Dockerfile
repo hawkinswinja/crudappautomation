@@ -2,8 +2,9 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 USER $APP_UID
-EXPOSE 8000
+EXPOSE 8080
 ENV DOTNET_RUNNING_IN_CONTAINER=true
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 
 # Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
