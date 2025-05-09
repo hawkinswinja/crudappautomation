@@ -3,7 +3,7 @@ WORKDIR /app
 USER $APP_UID 
 EXPOSE 8000 2222
 COPY entrypoint.sh ./
-RUN chmod u+x ./entrypoint.sh
+# RUN chmod u+x ./entrypoint.sh
 # Start and enable SSH
 # RUN apt-get update \
 #     && apt-get install -y --no-install-recommends dialog \
