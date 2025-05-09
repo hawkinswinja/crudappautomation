@@ -1,33 +1,33 @@
+# Base image for runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-USER $APP_UID 
+USER $APP_UID
 EXPOSE 8000
-# EXPOSE 8000 2222
-# COPY entrypoint.sh ./
-# RUN chmod u+x ./entrypoint.sh
-# Start and enable SSH
-# RUN apt-get update \
-#     && apt-get install -y --no-install-recommends dialog \
-#     && apt-get install -y --no-install-recommends openssh-server \
-#     && echo "root:Docker!" | chpasswd \
-#     && chmod u+x ./entrypoint.sh
-# COPY sshd_config /etc/ssh/
+ENV DOTNET_RUNNING_IN_CONTAINER=true
 
-
-# This stage is used to build the service project
+# Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
-WORKDIR /app
+WORKDIR /src
+
+# Install EF tools globally
 RUN dotnet tool install --global dotnet-ef --version 8.*
-COPY . ./
+
+# Copy project files
+COPY ["Authentication.csproj*", "./"]
 RUN dotnet restore
-RUN dotnet build --configuration Release
-# Build and publish a release
-RUN dotnet publish -c Release -o out
-RUN /root/.dotnet/tools/dotnet-ef migrations bundle --runtime linux-x64 -o migrationsbundle
-# ./migrationsbundle -- --environment Production
- 
-# Build runtime image
-FROM base
+
+# Copy the rest of the application files
+COPY . ./
+WORKDIR /src
+RUN dotnet build --configuration Release --no-restore
+RUN dotnet publish --configuration Release --no-restore --output /app/out
+
+# Bundle EF migrations
+RUN /root/.dotnet/tools/dotnet-ef migrations bundle --runtime linux-x64 -o /app/out/migrationsbundle
+
+# Final runtime image
+FROM base AS final
 WORKDIR /app
-COPY --from=build-env /app/out /app/migrationsbundle /app/
-ENTRYPOINT ["dotnet", "Authentication.dll" ]
+COPY --from=build-env /app/out ./
+COPY entrypoint.sh ./
+ENTRYPOINT [ "./entrypoint.sh" ]
