@@ -1,6 +1,8 @@
 # Base image for runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
+COPY entrypoint.sh ./
+RUN chmod +x ./entrypoint.sh
 USER $APP_UID
 EXPOSE 8080
 ENV DOTNET_RUNNING_IN_CONTAINER=true
@@ -30,5 +32,4 @@ RUN /root/.dotnet/tools/dotnet-ef migrations bundle --runtime linux-x64 -o /app/
 FROM base AS final
 WORKDIR /app
 COPY --from=build-env /app/out ./
-COPY entrypoint.sh ./
 CMD [ "./entrypoint.sh" ]
