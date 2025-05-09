@@ -1,15 +1,17 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-COPY entrypoint.sh ./
-# Start and enable SSH
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends dialog \
-    && apt-get install -y --no-install-recommends openssh-server \
-    && echo "root:Docker!" | chpasswd \
-    && chmod u+x ./entrypoint.sh
-COPY sshd_config /etc/ssh/
-# USER $APP_UID # Set the user to root to run the SSH server
+USER $APP_UID 
 EXPOSE 8000 2222
+COPY entrypoint.sh ./
+RUN chmod u+x ./entrypoint.sh
+# Start and enable SSH
+# RUN apt-get update \
+#     && apt-get install -y --no-install-recommends dialog \
+#     && apt-get install -y --no-install-recommends openssh-server \
+#     && echo "root:Docker!" | chpasswd \
+#     && chmod u+x ./entrypoint.sh
+# COPY sshd_config /etc/ssh/
+
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
