@@ -22,7 +22,7 @@ spec:
         configMap:
           name: nginx-conf
       containers:
-      - image: automationdemo.azurecr.io/crudui:202505121217 # {"$imagepolicy": "flux-system:crudui-image-policy"}
+      - image: automationdemo.azurecr.io/crudui:202505161324 # {"$imagepolicy": "flux-system:crudui-image-policy"}
         name: crudui
         ports:
         - containerPort: 80
