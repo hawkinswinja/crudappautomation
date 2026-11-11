@@ -6,6 +6,10 @@ virtual network, Application Gateway, AKS cluster, Azure Container Registry,
 Azure App Service, Azure SQL Server databases, Key Vault, and Azure DevOps
 agent-pool infrastructure described by `main.bicep`.
 
+## Architecture diagram
+
+![DevOpsAssessment](https://github.com/user-attachments/assets/75d52fdc-5fcf-4583-8567-e2576992f328)
+
 ## Prerequisites
 
 Install and authenticate the Azure CLI:
